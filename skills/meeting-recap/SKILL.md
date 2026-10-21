@@ -8,7 +8,7 @@ argument-hint: "[meeting name, person or date]"
 
 Turn an OpenWhispr meeting into a recap the user can act on, and save it where they'll see it: on the meeting itself, in OpenWhispr.
 
-The OpenWhispr connector provides the tools used here (`list_notes`, `search_notes`, `get_note`, `get_note_transcript`, `list_folders`, `update_note`, `create_note`). If they aren't available, ask the user to connect OpenWhispr from the plugin's **Connectors** tab (claude.ai, Cowork) or with `/mcp` (Claude Code).
+The OpenWhispr connector provides the tools used here (`list_notes`, `search_notes`, `get_note`, `get_note_transcript`, `list_folders`, `update_note`, `create_note`). If they aren't available, ask the user to connect OpenWhispr in their assistant's plugin or connection settings. Complete sign-in through the secure connection flow; never ask for a password, login code or API key in the conversation.
 
 ## 1. Find the meeting
 

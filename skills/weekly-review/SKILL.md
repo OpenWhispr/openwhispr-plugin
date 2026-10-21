@@ -8,7 +8,7 @@ argument-hint: "[date range, e.g. 'last week' or '1–15 Nov']"
 
 Turn a stretch of the user's OpenWhispr notes and meetings into a short review they can act on: what happened, what was decided, and what is still open.
 
-The OpenWhispr connector provides the tools used here (`list_notes`, `list_folders`, `get_note_transcript`, `create_note`, `create_folder`). If they aren't available, ask the user to connect OpenWhispr from the plugin's **Connectors** tab (claude.ai, Cowork) or with `/mcp` (Claude Code).
+The OpenWhispr connector provides the tools used here (`list_notes`, `list_folders`, `get_note_transcript`, `create_note`, `create_folder`). If they aren't available, ask the user to connect OpenWhispr in their assistant's plugin or connection settings. Complete sign-in through the secure connection flow; never ask for a password, login code or API key in the conversation.
 
 ## 1. Settle the window
 
@@ -72,4 +72,4 @@ Show the review first, then offer to save it as a note titled like "Weekly revie
 - **How:** call `create_note` with a `title`, always (the desktop app can't import a note without one, and its syncing stalls), the review as `content`, and the folder's `folder_id`. Use the default `note_type`. The app shows notes in a Markdown editor: keep to `##`/`###` headings, bullets and `- [ ]` checkboxes, with a blank line between paragraphs.
 - **Once saved:** confirm the title and folder. Don't paste the API response.
 
-Save without asking only when the user already asked for it ("…and save it to my notes"). Save once: a note created from Claude doesn't update cleanly in the desktop app yet, so if the user wants changes, finish them in the chat before saving. Never edit or delete the notes being reviewed.
+Save without asking only when the user already asked for it ("…and save it to my notes"). Save once: a note created through the connector doesn't update cleanly in the desktop app yet, so if the user wants changes, finish them in the chat before saving. Never edit or delete the notes being reviewed.

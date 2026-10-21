@@ -10,7 +10,7 @@ OpenWhispr's custom dictionary is the list of words it should spell exactly: peo
 
 **A short list beats a long one.** Some engines read only part of a long list. On-device transcription, for example, reads only about the last 150 words of it. The desktop app warns once the list passes about 550 characters. So add genuinely unusual words only, and leave everyday words out: they crowd out the words that matter without helping.
 
-The OpenWhispr connector provides the tools used here (`list_dictionary`, `add_dictionary_words`, `update_dictionary_word`, `delete_dictionary_word`, and `search_notes` / `get_note_transcript` for mining meetings). If they aren't available, ask the user to connect OpenWhispr from the plugin's **Connectors** tab (claude.ai, Cowork) or with `/mcp` (Claude Code).
+The OpenWhispr connector provides the tools used here (`list_dictionary`, `add_dictionary_words`, `update_dictionary_word`, `delete_dictionary_word`, and `search_notes` / `get_note_transcript` for mining meetings). If they aren't available, ask the user to connect OpenWhispr in their assistant's plugin or connection settings. Complete sign-in through the secure connection flow; never ask for a password, login code or API key in the conversation.
 
 ## 1. Gather candidate words
 
@@ -18,7 +18,7 @@ Work from whatever the user points at:
 
 - **A list they typed:** take it as given. Step 2 still applies.
 - **A document, email, brief or pasted text:** pull out names of people, companies, products and places that aren't household words, plus acronyms and domain terms with unusual spellings, such as "Kubernetes", "Ngozi Eze" or "Ballymaloe House".
-- **A codebase or project folder** (when Claude can read files): product, company, service and library names the user would say out loud, and internal acronyms. Skip code identifiers such as `getUserId`, because people don't dictate those as written.
+- **A codebase or project folder** (when the assistant can read the files): product, company, service and library names the user would say out loud, and internal acronyms. Skip code identifiers such as `getUserId`, because people don't dictate those as written.
 - **Their meetings or notes:** compare the names in note titles, participants and the existing dictionary with how the transcripts spell them. Propose the correct form for each mismatch, for example "Naka Mura" → "Nakamura".
 
 Leave out ordinary words such as "invoice", "workshop" or "roadmap", generic terms and whole sentences. Keep the user's preferred spelling and capitalisation ("iOS", "McKinsey"). Add people by full name as one entry ("Ngozi Eze"), and add a first name on its own only if it's unusual and used alone.
