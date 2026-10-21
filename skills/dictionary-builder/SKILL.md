@@ -8,7 +8,7 @@ argument-hint: "[words, or where to find them]"
 
 OpenWhispr's custom dictionary is the list of words it should spell exactly: people, companies, products, places, acronyms and jargon. OpenWhispr passes the list to the transcription engine as spelling hints.
 
-**A short list beats a long one.** Some engines read only part of a long list. On-device transcription, for example, reads roughly the last couple of hundred words' worth. The desktop app warns once the list passes about 550 characters. So add genuinely unusual words only, and leave everyday words out: they crowd out the words that matter without helping.
+**A short list beats a long one.** Some engines read only part of a long list. On-device transcription, for example, reads only about the last 150 words of it. The desktop app warns once the list passes about 550 characters. So add genuinely unusual words only, and leave everyday words out: they crowd out the words that matter without helping.
 
 The OpenWhispr connector provides the tools used here (`list_dictionary`, `add_dictionary_words`, `update_dictionary_word`, `delete_dictionary_word`, and `search_notes` / `get_note_transcript` for mining meetings). If they aren't available, ask the user to connect OpenWhispr from the plugin's **Connectors** tab (claude.ai, Cowork) or with `/mcp` (Claude Code).
 
