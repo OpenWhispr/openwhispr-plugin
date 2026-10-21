@@ -8,8 +8,8 @@ Server and consent changes are draft PRs; they have not been deployed.
 
 | Check | Result |
 | --- | --- |
-| Portable manifests | `plugin.json` and `mcp.json` pass the published Agent Plugins 1.0 JSON schemas. OpenAI extension fields also pass the local field checks below; the generic schemas do not fully validate OpenAI extensions. |
-| Archive | 10 allowlisted files, 764,073 bytes; safe relative paths, no duplicates, symlinks or extra wrapper directory. |
+| Manifest validation | `plugin.json` passes the published Agent Plugins 1.0 schema. The portable MCP transport/URL fields pass its MCP schema when checked separately. The complete MCP manifest includes OpenAI's documented OAuth/DCR extension, which the generic schema rejects because it disallows `extensions`; this is an unresolved documentation/schema conflict, not a full schema pass. |
+| Archive | 10 allowlisted files, 764,208 bytes; safe relative paths, no duplicates, symlinks or extra wrapper directory. |
 | Contents | One plugin, one existing remote Streamable HTTP MCP, six existing skills, MIT license and existing PNG. No hooks, apps, secrets, headers, dependencies or submission documents. |
 | Claude compatibility | Original `.claude-plugin` manifests and `.mcp.json` remain in the source repository; plugin name/version and MCP URL match the portable package. No Claude runtime acceptance was performed on this branch. |
 | Skills | All six frontmatter blocks parse; name/directory and description-length checks pass. No Claude/Cowork-specific instructions remain. Local transcription explicitly requires access to the user's computer and file. |
@@ -17,26 +17,33 @@ Server and consent changes are draft PRs; they have not been deployed.
 | Brand | Existing 1024 × 1024 PNG, 745,176 bytes, reused for logo and composer icon. `#1D4ED8` has 6.70:1 contrast against white. |
 | Publication | All available countries (`[]`), no purchases/payments, initial v1.0.0 release notes. OpenWhispr is the provisional publisher name pending the selected verified portal identity. |
 | Review metadata | Five positive and three negative cases with actual demo fixtures. No reviewer credentials in the source or ZIP. Demo URL is deliberately absent. |
+| Authentication declaration | Explicit OAuth, DCR client mode, and the existing nine data scopes plus openid/email. Endpoint discovery is preserved. No static client ID, client secret, access token, headers or endpoint overrides. |
 
 ZIP SHA-256:
 
 ```text
-d405787f27db5d666622bd6e6a5b51251113f711d23fb036eea2e1f45374fede
+64378601e79e92483e93dfa1060bb488ec86d8d038f00596ce7026292a312d9b
 ```
 
 Rebuild with `python3 scripts/package-openai.py /absolute/path/output.zip`.
 The standard-library validator checks the final archive, including exact file
 inventory, manifest limits, paths, URLs, icons, contrast and review-case structure.
-The schema check was separately run against the downloaded official
+The schema checks were separately run against the downloaded official
 [plugin schema](https://agent-plugins.org/schemas/1.0.0/plugin.schema.json) and
 [MCP schema](https://agent-plugins.org/schemas/1.0.0/mcp.schema.json) using
-`jsonschema` 4.25.1. A local pass does not replace OpenAI's portal scans.
+`jsonschema` 4.25.1. The full MCP schema rejection is retained as a finding;
+validating the transport fields alone does not establish that the complete file
+passes that schema. The auth extension is checked against the field names and
+values in [OpenAI's authentication packaging reference](https://developers.openai.com/plugins/build/plugins#configure-mcp-authentication).
+The [submission guide](https://developers.openai.com/plugins/deploy/submission#configure-authentication-for-submission)
+says advanced authentication settings are imported from the package. Portal
+import, saved OAuth/DCR settings and connection must still be verified.
 
 ## Server and consent checks
 
 | Area | Evidence and limit |
 | --- | --- |
-| API | 34 focused tests passed: existing OAuth parsing/flow plus 10 UserInfo tests using the PGlite database harness. Covers DCR, PKCE, verified/unverified email, scope-limited claims, existing Claude/default scopes, no privilege escalation, refresh, revoke, expired/invalid credentials, deleted/anonymous users and route metadata. Typecheck, changed-file ESLint, formatting and test-schema consistency passed. Local Node version was 25.8.0; repository CI uses Node 24. |
+| API | 34 focused tests passed: existing OAuth parsing/flow plus 10 UserInfo tests using the PGlite database harness. Covers DCR, PKCE, verified/unverified email, scope-limited claims, existing Claude/default scopes, no privilege escalation, refresh, revoke, expired/invalid credentials, deleted/anonymous users and route metadata. Typecheck, changed-file ESLint, formatting and test-schema consistency passed locally on Node 25.8.0. The full Node 24 [CI test job](https://github.com/OpenWhispr/openwhispr-api/actions/runs/39607163959/job/119246229255) and CodeQL passed on API commit 537de832b78837174da1da7463d743059e831c0a. |
 | MCP | Four tests passed using handler requests and an MCP SDK in-memory client. Checks exact configurable challenge response, absent token, HEAD/method handling, secure reconnect guidance, and all 21 tool names/annotations. ESLint and typecheck passed. The dictionary-add and snippet-create hints reflect existing upsert behaviour; no tool's implementation changed. |
 | Consent | All 18 existing/new OAuth browser tests passed using installed Chrome via Playwright, including the new identity-scope labels, legacy Claude permissions, callbacks, error states, mobile layout and keyboard focus. This is a synthetic local fixture, not a real provider login. The fixture run includes a successful Next build. |
 | Deployment prevention | Each hosted draft branch sets its own `git.deploymentEnabled` entry to `false`. No production configuration, environment variable or deployment was changed. |
@@ -70,7 +77,8 @@ fabricated `true`.
    requested scopes, consent, callback, UserInfo, refresh, revoke/reconnect and
    resource checks require host testing. The reviewer account's real email
    verification and password-only login were not checked.
-3. **OpenAI scans and execution:** skill scan, imported metadata, saved MCP scan,
+3. **OpenAI scans and execution:** the documented auth extension versus generic
+   schema conflict, imported OAuth/DCR/scopes, skill scan, metadata, saved MCP scan,
    all 21 tools and the eight conversational cases in ChatGPT/Codex remain pending.
    ChatGPT mobile and the optional local CLI path were not exercised here.
 4. **Reviewer access:** Josh must enter credentials directly in the secure portal

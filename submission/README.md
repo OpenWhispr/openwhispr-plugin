@@ -31,12 +31,18 @@ submission notes, scripts, credentials, dependency folders and Git files.
 Claude continues to use its original manifests in this same repository.
 The shared skill wording is provider-neutral. There are no hooks or app references.
 
-The portable MCP declaration relies on the existing server's OAuth discovery
-and DCR. No fixed credentials, header overrides or new MCP server are needed.
-After the server draft changes are approved and deployed, discovery advertises
-`openid` and `email` in addition to the existing MCP scopes. OpenAI's auth guide
-says advertised OIDC scopes are requested automatically. Verify the actual
-saved connection requests the intended scopes before submitting.
+The MCP declaration explicitly selects OAuth with DCR through OpenAI's documented
+server extension. Its base scopes include the existing nine data permissions
+and `openid`/`email`; endpoints still come from the existing server's discovery.
+No fixed credentials, header overrides or new MCP server are needed. Deploy the
+draft identity support before connecting, then verify the portal's saved OAuth
+method, DCR mode and requested scopes. Advanced auth settings come from the
+package; the portal does not provide an advanced OAuth editor.
+
+The generic Agent Plugins 1.0 MCP schema currently rejects the `extensions`
+field shown in OpenAI's authentication examples. The package follows the OpenAI
+submission documentation and records this schema conflict in the validation
+report. Actual portal import and connection remain unverified.
 
 ## Required server work
 
@@ -70,7 +76,9 @@ The package can be uploaded as a draft to obtain the challenge token first.
   as `OPENAI_APPS_CHALLENGE` for the authorized MCP deployment, serve it exactly
   at `https://mcp.openwhispr.com/.well-known/openai-apps-challenge`, then choose
   **Verify Domain**. The token is not hard-coded or included in the ZIP.
-- [ ] Connect with OAuth using the existing DCR flow. Complete the secure sign-in;
+- [ ] Confirm the imported authentication is OAuth, client mode is DCR, and all
+  nine data scopes plus openid/email are present. Connect using the existing DCR
+  flow. Complete the secure sign-in;
   check `openid`/`email` and the existing requested data permissions. Verify
   UserInfo returns the review account's real verified email. Confirm the current
   scan discovers all 21 tools and inspect the safety flags.

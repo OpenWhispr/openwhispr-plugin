@@ -3,7 +3,30 @@
   "mcpServers": {
     "openwhispr": {
       "type": "streamable-http",
-      "url": "https://mcp.openwhispr.com/mcp"
+      "url": "https://mcp.openwhispr.com/mcp",
+      "extensions": {
+        "com.openai": {
+          "auth": {
+            "type": "oauth",
+            "client": {
+              "mode": "dcr"
+            },
+            "baseScopes": [
+              "notes:read",
+              "notes:write",
+              "transcriptions:read",
+              "transcriptions:write",
+              "usage:read",
+              "dictionary:read",
+              "dictionary:write",
+              "snippets:read",
+              "snippets:write",
+              "openid",
+              "email"
+            ]
+          }
+        }
+      }
     }
   }
 }

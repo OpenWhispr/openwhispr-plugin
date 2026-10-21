@@ -25,6 +25,11 @@ PACKAGE_FILES = (
     "plugin.json", "mcp.json", "LICENSE", "assets/icon.png",
     *(f"skills/{name}/SKILL.md" for name in SKILLS),
 )
+OAUTH_SCOPES = [
+    "notes:read", "notes:write", "transcriptions:read", "transcriptions:write",
+    "usage:read", "dictionary:read", "dictionary:write", "snippets:read",
+    "snippets:write", "openid", "email",
+]
 CATEGORIES = {
     "Business & Operations", "Communication", "Creativity", "Data & Analytics",
     "Developer Tools", "Education & Research", "Entertainment", "Finance",
@@ -97,7 +102,10 @@ def validate(archive):
         server = config["mcpServers"]["openwhispr"]
         require(server["type"] == "streamable-http" and server["url"] == "https://mcp.openwhispr.com/mcp", "Unexpected MCP endpoint")
         require(not server.get("headers"), "Embedded headers are forbidden")
-        require(set(server) == {"type", "url"}, "Use the existing server OAuth discovery without credential or endpoint overrides")
+        require(set(server) == {"type", "url", "extensions"}, "Unexpected MCP server fields")
+        require(server["extensions"] == {"com.openai": {"auth": {
+            "type": "oauth", "client": {"mode": "dcr"}, "baseScopes": OAUTH_SCOPES,
+        }}}, "Declare OpenAI OAuth/DCR and the existing data plus identity scopes; no credentials or endpoint overrides")
         review = oa["review"]
         require(not any(k in review for k in ["test_credentials", "reviewer_instructions"]), "Reviewer access must stay outside the ZIP")
         cases = review["test_cases"]
@@ -141,6 +149,7 @@ def main():
     result.update({"archive": str(output), "sha256": hashlib.sha256(output.read_bytes()).hexdigest(), "bytes": output.stat().st_size})
     print(json.dumps(result, indent=2))
     print("Draft archive checks passed. Demo video, deployed OAuth/domain verification, portal scans and attestations remain separate.")
+    print("OpenAI's documented MCP auth extension is checked locally. The published generic MCP schema currently excludes that extension; see submission/validation.md.")
 
 
 if __name__ == "__main__":
