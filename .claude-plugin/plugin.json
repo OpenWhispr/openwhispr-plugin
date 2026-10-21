@@ -10,6 +10,8 @@
   },
   "homepage": "https://docs.openwhispr.com/help/ai-tools/connect-ai-tools",
   "privacyPolicyUrl": "https://openwhispr.com/privacy",
+  "termsOfServiceUrl": "https://openwhispr.com/terms",
+  "supportUrl": "https://openwhispr.com/contact",
   "repository": "https://github.com/OpenWhispr/openwhispr-plugin",
   "license": "MIT",
   "keywords": [
