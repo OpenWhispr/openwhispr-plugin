@@ -1,0 +1,24 @@
+{
+  "name": "openwhispr",
+  "displayName": "OpenWhispr",
+  "version": "1.0.0",
+  "description": "Use your OpenWhispr meetings, notes, dictionary and snippets from Claude: recap a meeting and save it back, ask what was said, teach OpenWhispr new words, build voice shortcuts, review your week, and transcribe recordings.",
+  "author": {
+    "name": "OpenWhispr",
+    "email": "support@openwhispr.com",
+    "url": "https://openwhispr.com"
+  },
+  "homepage": "https://docs.openwhispr.com/help/ai-tools/connect-ai-tools",
+  "privacyPolicyUrl": "https://openwhispr.com/privacy",
+  "repository": "https://github.com/OpenWhispr/openwhispr-plugin",
+  "license": "MIT",
+  "keywords": [
+    "openwhispr",
+    "dictation",
+    "meeting notes",
+    "transcription",
+    "voice",
+    "notes"
+  ],
+  "icon": "assets/icon.png"
+}

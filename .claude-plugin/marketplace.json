@@ -1,0 +1,16 @@
+{
+  "name": "openwhispr",
+  "description": "OpenWhispr's official plugin for Claude: skills plus the OpenWhispr connector.",
+  "owner": {
+    "name": "OpenWhispr",
+    "url": "https://openwhispr.com"
+  },
+  "plugins": [
+    {
+      "name": "openwhispr",
+      "description": "OpenWhispr skills and connector for Claude: meeting recaps, note search, dictionary, snippets, weekly reviews and transcription.",
+      "source": "./",
+      "homepage": "https://docs.openwhispr.com/help/ai-tools/connect-ai-tools"
+    }
+  ]
+}
