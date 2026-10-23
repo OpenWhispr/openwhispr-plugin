@@ -1,6 +1,6 @@
 ---
 name: transcribe-recording
-description: Transcribe audio files and recordings (interviews, voice memos, lectures, podcasts, call recordings) with OpenWhispr, then save the transcript as an OpenWhispr note, tidy it up or recap it. Use this skill first, before running any command or calling the connector's transcribe_audio tool, whenever the user asks to transcribe something or turn a recording into text or notes ("transcribe interview.m4a", "transcribe this voice memo for me", "get me a transcript of ~/Downloads/call.mp3", "turn these recordings into notes"). transcribe_audio can only carry clips of a few seconds. This skill uses the OpenWhispr command-line tool where Claude can run commands (Claude Code), and explains the desktop-app route everywhere else.
+description: Transcribe audio files and recordings (interviews, voice memos, lectures, podcasts, call recordings) with OpenWhispr, then save the transcript as an OpenWhispr note, tidy it up or recap it. Use this skill first, before running any command or calling the connector's transcribe_audio tool, whenever the user asks to transcribe something or turn a recording into text or notes ("transcribe interview.m4a", "transcribe this voice memo for me", "get me a transcript of ~/Downloads/call.mp3", "turn these recordings into notes"). transcribe_audio can only carry clips of a few seconds. This skill uses the OpenWhispr command-line tool where the assistant has terminal access on the user's computer, and explains the desktop-app route everywhere else.
 argument-hint: "<audio file> [--save to <folder>]"
 ---
 
@@ -10,7 +10,7 @@ Use the OpenWhispr command-line tool (`openwhispr`) to transcribe audio files, b
 
 ## When commands can't run
 
-In claude.ai chat or on mobile there is no way to run the CLI. Explain the alternative in two lines: open the file in the OpenWhispr desktop app, which transcribes it into a new note, then ask Claude about that note. The plugin's meeting recap and note search work on it from there.
+If the assistant has no terminal on the user's computer, or cannot access the audio file there, it cannot run the local CLI. A hosted sandbox does not provide access to the user's desktop app or files. Explain the alternative in two lines: open the file in the OpenWhispr desktop app, which transcribes it into a new note, then ask the assistant about that note. The plugin's meeting recap and note search work on it from there.
 
 ## 1. Check the CLI
 

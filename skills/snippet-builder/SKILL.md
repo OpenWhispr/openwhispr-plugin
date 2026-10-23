@@ -15,7 +15,7 @@ How matching works:
 - When triggers overlap, the longest one wins.
 - Triggers are also passed to transcription as spelling hints, along with the dictionary.
 
-The OpenWhispr connector provides the tools used here (`list_snippets`, `create_snippet`, `update_snippet`, `delete_snippet`). If they aren't available, ask the user to connect OpenWhispr from the plugin's **Connectors** tab (claude.ai, Cowork) or with `/mcp` (Claude Code).
+The OpenWhispr connector provides the tools used here (`list_snippets`, `create_snippet`, `update_snippet`, `delete_snippet`). If they aren't available, ask the user to connect OpenWhispr in their assistant's plugin or connection settings. Complete sign-in through the secure connection flow; never ask for a password, login code or API key in the conversation.
 
 ## 1. Pin down the text
 

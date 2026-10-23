@@ -8,7 +8,7 @@ argument-hint: "[question]"
 
 Answer the user's question from what they captured in OpenWhispr, and show where each answer came from so they can trust it and find the original.
 
-The OpenWhispr connector provides the tools used here (`search_notes`, `get_note`, `get_note_transcript`, `list_notes`, `list_transcriptions`, `list_folders`). If none of them is available, tell the user to connect OpenWhispr first: on claude.ai or in Cowork from the plugin's **Connectors** tab, or in Claude Code with `/mcp`, then sign in with their OpenWhispr account.
+The OpenWhispr connector provides the tools used here (`search_notes`, `get_note`, `get_note_transcript`, `list_notes`, `list_transcriptions`, `list_folders`). If none of them is available, ask the user to connect OpenWhispr in their assistant's plugin or connection settings and sign in through the secure connection flow. Never ask for passwords, login codes or API keys in the conversation.
 
 This skill only reads. Don't create, edit or delete anything while answering. If a brief or answer is worth keeping, offer to save it as a note and wait for a yes. When saving, always give `create_note` a `title`, because the desktop app can't import a note without one.
 
@@ -47,7 +47,7 @@ Quote short exact phrases when the wording matters, for example "we can't ship u
 
 `list_transcriptions` returns past dictations, newest first. It has no search, so scan pages of 100 for the terms, up to about the 300 most recent, and say how far back you looked.
 
-Each dictation's `text` is empty unless the user turned on **Cloud backup** in the OpenWhispr desktop app. Without backup the cloud keeps only word counts and timing. If every `text` comes back empty, tell the user their dictations can't be searched from Claude until Cloud backup is on (in the desktop app: **Settings → Privacy & Data → Cloud backup**). Then answer from their notes.
+Each dictation's `text` is empty unless the user turned on **Cloud backup** in the OpenWhispr desktop app. Without backup the cloud keeps only word counts and timing. If every `text` comes back empty, tell the user their dictations can't be searched through the connector until Cloud backup is on (in the desktop app: **Settings → Privacy & Data → Cloud backup**). Then answer from their notes.
 
 ## 4. Answer
 

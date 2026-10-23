@@ -2,7 +2,7 @@
   "name": "openwhispr",
   "displayName": "OpenWhispr",
   "version": "1.0.0",
-  "description": "Use your OpenWhispr meetings, notes, dictionary and snippets from Claude: recap a meeting and save it back, ask what was said, teach OpenWhispr new words, build voice shortcuts, review your week, and transcribe recordings.",
+  "description": "Use your OpenWhispr meetings, notes, dictionary and snippets from your AI assistant: recap a meeting and save it back, ask what was said, teach OpenWhispr new words, build voice shortcuts, review your week, and transcribe recordings.",
   "author": {
     "name": "OpenWhispr",
     "email": "support@openwhispr.com",

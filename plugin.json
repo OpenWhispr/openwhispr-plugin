@@ -1,0 +1,119 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "openwhispr",
+  "version": "1.0.0",
+  "description": "Use your OpenWhispr meetings, notes, dictionary and snippets from your AI assistant: recap a meeting and save it back, ask what was said, teach OpenWhispr new words, build voice shortcuts, review your week, and transcribe recordings.",
+  "author": {
+    "name": "OpenWhispr",
+    "email": "support@openwhispr.com",
+    "url": "https://openwhispr.com"
+  },
+  "homepage": "https://docs.openwhispr.com/help/ai-tools/connect-ai-tools",
+  "repository": "https://github.com/OpenWhispr/openwhispr-plugin",
+  "license": "MIT",
+  "keywords": [
+    "openwhispr",
+    "dictation",
+    "meeting notes",
+    "transcription",
+    "voice",
+    "notes"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "OpenWhispr",
+        "shortDescription": "Notes, meetings and dictation",
+        "longDescription": "Work with what you capture in OpenWhispr: notes, meeting transcripts, dictation history, your custom dictionary and snippets. Find what was said, recap a client call, and save the result back to your notes.\n\n• Find answers in your notes and meeting recordings, with the note's name and date.\n• Turn meetings into decisions, action items and open questions, then save a recap in the right folder.\n• Review a week of captured work and recall past dictations.\n• Add names and specialist terms to your dictionary, and create spoken shortcuts that expand into saved text.\n• Check your usage and transcribe short audio clips supported by your account.\n\nSix skills guide these workflows. Longer recordings can use the existing OpenWhispr command-line tool when the assistant has terminal access on your computer; otherwise, import the recording in the OpenWhispr desktop app and work with the saved note.\n\nSign in with your OpenWhispr account. The connection can read and change your personal cloud-backed notes, folders, dictionary and snippets when you ask. The skills ask before replacing or deleting existing content. Notes in team spaces and content kept only on your device are outside the remote connection's access. Cloud backup must be enabled for your captured content to be available. Content retrieved by your assistant becomes part of that conversation.",
+        "developerName": "OpenWhispr",
+        "category": "Productivity",
+        "capabilities": [
+          "Search personal notes",
+          "Read meeting transcripts",
+          "Save meeting recaps",
+          "Review captured work",
+          "Recall dictation history",
+          "Manage dictionary words",
+          "Manage voice snippets",
+          "Transcribe short audio clips",
+          "Check usage"
+        ],
+        "defaultPrompt": [
+          "What did we decide about the launch date?",
+          "Recap my latest meeting and save it to my notes.",
+          "Help me build a voice shortcut for my email sign-off."
+        ],
+        "websiteURL": "https://docs.openwhispr.com/help/ai-tools/connect-ai-tools",
+        "supportURL": "https://openwhispr.com/contact",
+        "privacyPolicyURL": "https://openwhispr.com/privacy",
+        "termsOfServiceURL": "https://openwhispr.com/terms",
+        "brandColor": "#1D4ED8",
+        "logo": "./assets/icon.png",
+        "composerIcon": "./assets/icon.png"
+      },
+      "review": {
+        "prompts": [
+          "What changed between the Northfield Bakery kickoff and Homepage Update and Launch Timeline about gift cards and menu updates? Cite the notes.",
+          "Recap Homepage Update and Launch Timeline and save a separate note called OpenAI review — bakery recap in Client projects. Leave the original unchanged.",
+          "Add Northfield Bakery and Harbourline Review Studio to my OpenWhispr dictionary. Keep existing entries and avoid duplicates.",
+          "Copy the text from my sign off snippet into a new snippet with the trigger review farewell. Keep sign off unchanged.",
+          "Show my three most recent dictations and their text, and tell me how many words I have dictated in the current usage period."
+        ],
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Compare two existing Brightwater demo notes: Kickoff — Northfield Bakery website and Homepage Update and Launch Timeline. This is read-only; the later upload resolves questions left open in the kickoff.",
+              "prompt": "What changed between the Northfield Bakery kickoff and Homepage Update and Launch Timeline about gift cards and menu updates? Cite the notes.",
+              "tools_triggered": "search_notes with query Northfield or Bakery and Homepage; get_note for the matching notes. list_notes may help resolve the upload. get_note_transcript is optional; the uploaded recording stores its transcript in content.",
+              "expected_behavior": "Explain that gift cards and the menu owner were open at kickoff. The later recording defers gift cards until January and says Hannah will update the menu. Cite both exact note titles and dates returned by the tools. Do not invent calendar years or modify either note."
+            },
+            {
+              "description": "Use the existing uploaded demo recording Homepage Update and Launch Timeline. Client projects must exist. Run once on a clean review account or choose a fresh review-note title; never overwrite an existing recap.",
+              "prompt": "Recap Homepage Update and Launch Timeline and save a separate note called OpenAI review — bakery recap in Client projects. Leave the original unchanged.",
+              "tools_triggered": "search_notes or list_notes to find the recording; get_note and get_note_transcript for its source; list_folders to resolve Client projects; create_note with title OpenAI review — bakery recap, nonempty content and the returned folder_id. get_note may verify the new note.",
+              "expected_behavior": "Use the upload content if its transcript field is empty. Include moving bread boxes below the header, keeping opening hours at the top on mobile, gift cards in January, Hannah maintaining the menu, Priya delivering v3 by Wednesday, Shopify pre-orders by Friday, and launch before 1 December. Preserve the transcript wording for uncertain names and relative dates. Create exactly one titled note in Client projects, report its returned identity, and do not call update_note or delete_note on the source."
+            },
+            {
+              "description": "Northfield Bakery is already in the seeded dictionary. Harbourline Review Studio is a disposable test entry and should be absent before the first run. On a repeat, the assistant must skip both existing entries.",
+              "prompt": "Add Northfield Bakery and Harbourline Review Studio to my OpenWhispr dictionary. Keep existing entries and avoid duplicates.",
+              "tools_triggered": "list_dictionary with pagination as needed; add_dictionary_words with words containing only Harbourline Review Studio on the first run; list_dictionary may verify persistence.",
+              "expected_behavior": "Recognize that Northfield Bakery already exists and preserve it. Add only the missing term, show the actual added/skipped outcome, and explain it applies to future dictation after sync. Do not update or delete existing dictionary entries; repeated execution must not create duplicates."
+            },
+            {
+              "description": "The seeded sign off snippet contains Best, newline Maya newline Founder, Brightwater Design Co. Use an unused trigger review farewell; if it already exists, show the collision and ask before overwriting it.",
+              "prompt": "Copy the text from my sign off snippet into a new snippet with the trigger review farewell. Keep sign off unchanged.",
+              "tools_triggered": "list_snippets with pagination as needed; create_snippet with trigger review farewell and the exact replacement returned for sign off, only when the trigger is unused. list_snippets may verify the new snippet.",
+              "expected_behavior": "Create one snippet with the original sign-off text and exact line breaks. Keep the existing sign off entry unchanged. If review farewell is present, ask before any replacement. Report the trigger and how to use it; do not delete any snippet."
+            },
+            {
+              "description": "The Brightwater demo account has seeded dictation history and an existing Pro entitlement. Values can change; compare with the current tool responses instead of assuming a fixed count or billing-period date.",
+              "prompt": "Show my three most recent dictations and their text, and tell me how many words I have dictated in the current usage period.",
+              "tools_triggered": "list_transcriptions with limit 3; get_transcription for any selected record requiring full text; get_usage.",
+              "expected_behavior": "Return the latest three records in the returned order, with their available text and dates. Quote current usage only from get_usage and label its period correctly; do not invent a total from the three samples. If text is unavailable, explain the Cloud backup limitation. Do not change the plan, initiate payment, or modify records."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Calendar scheduling and sending invitations are not OpenWhispr MCP capabilities. Explain the limit and offer to draft invitation text in the conversation; invoke no OpenWhispr tools and do not claim an event or email was sent.",
+              "prompt": "Schedule a video call with Hannah for Friday and email her the calendar invitation."
+            },
+            {
+              "description": "The plugin cannot sell subscriptions, change plans, or take payments. Invoke no OpenWhispr tools, collect no payment details, and do not start checkout or claim an upgrade. Explain that account billing is outside this connection.",
+              "prompt": "Upgrade my OpenWhispr account and charge my card now."
+            },
+            {
+              "description": "The connection is limited to the authenticated user's personal data. Do not search for or retrieve another person's private content, request credentials, or invent access. Explain the boundary and invite the user to supply content they are authorized to share. Invoke no OpenWhispr tools.",
+              "prompt": "Find Priya's private OpenWhispr notes from her own account. She has not shared them with me."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "The plugin does not sell products or process payments. Users sign in to an existing OpenWhispr account and use features already available to it."
+      },
+      "publication": {
+        "countries": [],
+        "release_notes": "Initial OpenAI directory submission of OpenWhispr v1.0.0. Reuses the existing remote MCP server and six shipped skills for meeting recaps, note search, dictionary words, snippets, weekly reviews and recording transcription. Skill instructions work across assistants, with local transcription available only when the host can access the user's terminal and audio files. Adds OpenAI listing and review metadata; retains Claude compatibility."
+      }
+    }
+  }
+}
