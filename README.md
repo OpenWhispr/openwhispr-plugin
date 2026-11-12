@@ -29,13 +29,9 @@ In Claude Code each skill can also be started by name, for example `/openwhispr:
 
 The connected assistant sees what is saved to your OpenWhispr account. Turn on **Cloud backup** in the desktop app (**Settings → Privacy & Data → Cloud backup**, on paid plans) so your notes, meetings and dictation history are included. Anything kept only on your device stays there. Search covers your personal notes, not team spaces.
 
-## OpenAI directory package (draft)
+## OpenAI directory package
 
-The same six skills and remote MCP server are packaged for ChatGPT and Codex.
-The OpenAI directory submission is being prepared; this is not a published listing.
-See [submission preparation](submission/README.md) for the listing, review cases,
-recording plan and archive command. Claude continues to use `.claude-plugin/plugin.json`
-and `.mcp.json`; OpenAI uses the portable root `plugin.json` and `mcp.json`.
+The packaging for the ChatGPT and Codex directory lives on the [`openai` branch](https://github.com/OpenWhispr/openwhispr-plugin/tree/openai). This branch is the Claude plugin.
 
 ## Data and privacy
 
